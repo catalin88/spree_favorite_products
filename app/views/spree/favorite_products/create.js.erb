@@ -1,4 +1,16 @@
 <% if @success %>
-  $('.favorite_link').attr('href', '<%= favorite_product_path(:id => params[:id]) %>').data('method', 'delete').text('<%= Spree.t(:unmark_as_favorite) %>')
+  $('.favorite_link').attr('href', '<%= favorite_product_path(:id => params[:id]) %>')
+                     .data('method', 'delete')
+                     .html('<%= '<i class="fa fa-gift" aria-hidden="true"></i> '.html_safe + Spree.t(:unmark_as_favorite) %>')
 <% end %>
-alert("<%=j @message%>");
+
+// increase the number of saved products
+if($('.favorite-items').length) {
+  var favorites = parseInt($('.favorite-items').html())
+  favorites++
+  $('.favorite-items').html(favorites)
+} else {
+  $('#link-to-favorites').append("<span class='favorite-items'>1</span>")
+}
+
+<%= ajax_flash_message("success", @message) %>
