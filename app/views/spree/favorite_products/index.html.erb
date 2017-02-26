@@ -1,26 +1,34 @@
 <div data-hook="account_my_favorite_products" class="account-my-favorite-products commonform">
-  <h3><%= Spree.t(:my_favorite_products) %></h3>
+  <h3><%= Spree.t(:my_favorite_products, scope: :favorite_products) %></h3>
   <% if @favorite_products.present? %>
-    <table class="favorite-products order-summary" width="100%">
-      <thead>
-      <tr>
-        <th class="favorite-product-image"><%= Spree.t(:product_image) %></th>
-        <th class="favorite-product-name"><%= Spree.t(:product_name) %></th>
-        <th class="favorite-product-action">Action</th>        
-      </tr>
-      </thead>
-      <tbody>
+    <div id="favorite-products">
       <% @favorite_products.each do |product| %>
-        <tr class="<%= cycle('even', 'odd') %> favorite_product" id="favorite_product_<%= product.id %>">
-          <td class="favorite-product-image"><%= link_to small_image(product), product_path(product) %></td>
-          <td class="favorite-product-name"><%= product.name %></td>
-          <td class="favorite-product-remove"><%= link_to 'Remove', favorite_product_path(:id => product.id), :method => :delete, :remote => true, :confirm => 'Are you sure you want to remove the product?' %>
-        </tr>
+        <div class="row vertical-align line-item">
+          <div class="col-xs-4 col-sm-2" data-hook="favorite_item_image">
+            <% if product.images.length == 0 %>
+              <%= link_to mini_image(product), product %>
+            <% else %>
+              <%= link_to image_tag(product.images.first.attachment.url(:mini)), product %>
+            <% end %>
+          </div>
+          <div class="col-xs-8 col-sm-10">
+            <h4><%= link_to product.name, product_path(product) %></h4>
+            <% if product.summary.present? %>
+              <ul id="product-summary">
+                <% product.summary.each_line do |line| %>
+                  <li><%= line.chomp %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+          <div class="col-xs-0" data-hook="favorite_item_delete">
+            <%= link_to content_tag(:span, '&times;'.html_safe, title: 'elimină'), favorite_product_path(:id => product.id), :method => :delete, :remote => true %>
+          </div>
+        </div>
       <% end %>
-      </tbody>
-    </table>
+    </div>
   <% else %>
-    <p><%= Spree.t(:you_have_no_favorite_products_yet) %></p>
+    <p><%= Spree.t(:you_have_no_favorite_products_yet, scope: :favorite_products) %></p>
   <% end %>
   
   <%= paginate @favorite_products %>
