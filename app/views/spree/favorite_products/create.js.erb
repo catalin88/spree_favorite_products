@@ -1,7 +1,7 @@
 <% if @success %>
   $('.favorite_link').attr('href', '<%= favorite_product_path(:id => params[:id]) %>')
                      .data('method', 'delete')
-                     .html('<%= '<i class="fa fa-gift" aria-hidden="true"></i> '.html_safe + Spree.t(:unmark_as_favorite) %>')
+                     .html('<%= Spree.t(:unmark_as_favorite) %>')
 <% end %>
 
 // increase the number of saved products
