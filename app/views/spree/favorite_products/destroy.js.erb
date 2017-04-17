@@ -2,7 +2,7 @@
   if($('.favorite_link').length) {
     $('.favorite_link').attr('href', '<%= favorite_products_path(:id => @favorite.product_id) %>')
                        .data('method', 'post')
-                       .html('<%= '<i class="fa fa-gift" aria-hidden="true"></i> '.html_safe + Spree.t(:mark_as_favorite) %>')
+                       .html('<%= Spree.t(:mark_as_favorite) %>')
     <%= ajax_flash_message("success", Spree.t(:success, scope: [:favorite_products, :destroy])) %>
   } else {
     $("#favorite_product_<%= @favorite.product_id%>").remove();
